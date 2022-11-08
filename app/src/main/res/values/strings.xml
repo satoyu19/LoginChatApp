@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LoginChatApp</string>
+    <string name="title">OTP Verification</string>
+    <string name="we_will_send_you_an">We will send you an</string>
+</resources>
