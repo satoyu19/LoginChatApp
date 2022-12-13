@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".OPTActivity"
+    tools:context=".ui.OPTActivity"
     android:gravity="center_horizontal"
     android:layout_gravity="center"
     android:background="#F2F7F4"
@@ -18,6 +18,7 @@
         />
 
     <TextView
+        android:id="@+id/phoneLabel"
         android:text="Vertical +09011102323"
         android:textAlignment="center"
         android:textSize="25sp"
@@ -41,7 +42,7 @@
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="8dp"
-        app:cardElevation="10dp"
+        app:cardElevation="14dp"
         >
 
         <LinearLayout
@@ -53,7 +54,7 @@
             android:padding="15dp"
             android:layout_margin="15dp"
             >
-            
+
             <com.mukesh.OtpView
                 android:id="@+id/otp_view"
                 android:layout_width="wrap_content"
@@ -63,7 +64,20 @@
                 android:layout_marginTop="5dp"
                 android:inputType="number"
                 android:focusableInTouchMode="true"
+                app:OtpItemCount="6"
+                app:OtpLineColor="#0169EC"
+                app:OtpViewType="line"
+                />
 
+            <Button
+                android:id="@+id/continueBtnOtp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Continue"
+                android:textSize="16sp"
+                android:textStyle="bold|normal"
+                android:backgroundTint="#0169EC"
+                android:textAllCaps="false"
                 />
 
         </LinearLayout>

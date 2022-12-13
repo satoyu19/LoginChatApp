@@ -1,75 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.VerificationActivity"
+    tools:context=".ui.SetupProfileActivity"
+    android:orientation="vertical"
     android:gravity="center_horizontal"
     android:layout_gravity="center"
-    android:background="#F2F7F4"
     >
 
-    <ImageView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:src="@drawable/ic_login"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerCrop"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_account"
         />
-
+    
     <TextView
+        android:text="Profile Information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:textStyle="bold"
         android:textAlignment="center"
-        android:textColor="#036007"
-        android:text="@string/title"
+        android:layout_marginTop="19dp"
+        android:textSize="20sp"
+        android:textStyle="bold|normal"
+        android:textColor="#333"
         />
-
-    <LinearLayout
+    <TextView
+        android:text="please set you name and an optional orofile image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/we_will_send_you_an"
-            android:textSize="16sp"
-            android:textStyle="normal"
-            android:textColor="#656262"
-            android:layout_marginRight="6dp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="One time password"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#0B0B0B"
-            android:layout_marginRight="6dp"
-            />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:text="on this mobile Number..."
-        android:textSize="16sp"
-        android:textStyle="normal"
-        android:textColor="#656262"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        android:textStyle="bold|normal"
+        android:textColor="#333"
         />
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,12 +57,11 @@
             >
 
             <EditText
-                android:id="@+id/editNumber"
-                android:hint="Type your Phone Number"
+                android:id="@+id/nameBox"
+                android:hint="Type your name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:inputType="phone"
                 android:textSize="20dp"
                 android:textStyle="normal|bold"
                 android:textColor="#1C1C1C"
@@ -102,10 +69,10 @@
                 />
 
             <Button
-                android:id="@+id/continueBtn"
+                android:id="@+id/continueBtn02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Continue"
+                android:text="Setup Profile"
                 android:textSize="16sp"
                 android:textStyle="bold|normal"
                 android:backgroundTint="#32BD38"
