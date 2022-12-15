@@ -39,12 +39,13 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = GridLayoutManager(this@MainActivity, 2)
         binding.mRec.layoutManager = layoutManager
 
+        //user/自身のuid　の内容に変更があった場合
         database.reference.child("users")
             .child(FirebaseAuth.getInstance().uid!!)    //自分?
             .addValueEventListener(object :
                 ValueEventListener {  //FirebaseAuth.getInstance().uid!!のデータが変更された時のリスナー
                 override fun onDataChange(snapshot: DataSnapshot) { //snapshot→FirebaseDatabaseのデータ
-                    user = snapshot.getValue(User::class.java)
+                    user = snapshot.getValue(User::class.java)  //userの更新
                 }
 
                 override fun onCancelled(error: DatabaseError) {}
@@ -75,13 +76,13 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val currentId = FirebaseAuth.getInstance().uid
-        database.reference.child("presence").child(currentId!!).setValue("Online")
+        database.reference.child("Presence").child(currentId!!).setValue("Online")
     }
 
     override fun onPause() {
         super.onPause()
         val currentId = FirebaseAuth.getInstance().uid
-        database.reference.child("presence").child(currentId!!).setValue("Offline")
+        database.reference.child("Presence").child(currentId!!).setValue("Offline")
     }
 }
 

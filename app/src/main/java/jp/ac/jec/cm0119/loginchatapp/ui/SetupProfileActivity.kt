@@ -69,10 +69,11 @@ class SetupProfileActivity : AppCompatActivity() {
                             val name = binding.nameBox.text.toString()
                             val user = User(uid, name, phone, imageUrl)
                                 //usersに登録
+                            /**自身のプロフィール更新で活用**/
                             database.reference
                                 .child("users")
                                 .child(uid!!)
-                                .setValue(user) //firebaseに登録
+                                .setValue(user) /**更新している？**/
                                 .addOnCompleteListener {
                                     dialog!!.dismiss()
                                     val intent = Intent(this@SetupProfileActivity, MainActivity::class.java)
@@ -86,7 +87,7 @@ class SetupProfileActivity : AppCompatActivity() {
                 val uid = auth.uid
                 val phone = auth.currentUser!!.phoneNumber
                 val name = binding.nameBox.text.toString()
-                val user = User(uid, name, phone, "No Image")   //No Image用のuri準備
+                val user = User(uid, name, phone, "No Image")   //No Image用のuri準備(nullで良い？)
                 database.reference
                     .child("users")
                     .child(uid!!)

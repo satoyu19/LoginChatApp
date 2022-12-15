@@ -1,6 +1,7 @@
 package jp.ac.jec.cm0119.loginchatapp.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,10 +65,11 @@ class MessagesAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messages[position]
+        Log.d("Test", "message/ $message")
         //(if)送りか (else)受けか
         if (holder.javaClass == SentMsgHolder::class.java) {    //自分が送信したメッセージだったら
             val viewHolder = holder as SentMsgHolder
-            if (message.message.equals("photo")) {  //メッセージが写真の場合
+            if (message.message.equals("photo")) {  //メッセージが写真の場合,画像を表示
                 viewHolder.binding.image.visibility = View.VISIBLE
                 viewHolder.binding.message.visibility = View.GONE
                 viewHolder.binding.mLiner.visibility = View.GONE
@@ -88,16 +90,16 @@ class MessagesAdapter(
                         FirebaseDatabase.getInstance().reference.child("chats")
                             .child(senderRoom)
                             .child("message")
-                            .child(it1).setValue(message)   //メッセージのIdを元にメッセージの内容を変更
+                            .child(it1).setValue(message)   //自分のメッセージのIdを元にメッセージの内容を変更
                     }
                     message.messageId?.let { it2 ->
                         FirebaseDatabase.getInstance().reference.child("chats")
                             .child(receiverRoom)
                             .child("message")
-                            .child(it2).setValue(message)   //メッセージのIdを元にメッセージの内容を変更
+                            .child(it2).setValue(message)   //相手のメッセージのIdを元にメッセージの内容を変更
                     }
                     dialog.dismiss()
-                } //全削除
+                }
                 binding.delete.setOnClickListener {
                     message.messageId?.let { it1 ->
                         FirebaseDatabase.getInstance().reference.child("chats")
@@ -106,14 +108,15 @@ class MessagesAdapter(
                             .child(it1).setValue(null)   //メッセージのIdを元にメッセージの内容を変更(nullで削除扱い？)
                     }
                     dialog.dismiss()
-                }   //対象のメッセージ削除？
+                }
                 binding.cancel.setOnClickListener {
                     dialog.dismiss()
                 }  //キャンセル
                 dialog.show()
                 false
             }
-        } else {
+        }
+        else {
             val viewHolder = holder as ReceiveMsgHolder
             if (message.message.equals("photo")) {
                 viewHolder.binding.image.visibility = View.VISIBLE
