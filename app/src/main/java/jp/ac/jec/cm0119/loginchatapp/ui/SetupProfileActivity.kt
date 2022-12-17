@@ -112,7 +112,6 @@ class SetupProfileActivity : AppCompatActivity() {
             Log.d("LoginChatApp", "LoginChatApp")
             if (data.data != null) {    //uri
                 val uri = data.data
-                Log.d("Image", "data.data/${data.data}")
                 val storage = FirebaseStorage.getInstance()
                 val time = Date().time
                 val reference = storage.reference

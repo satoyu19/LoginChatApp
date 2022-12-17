@@ -1,10 +1,12 @@
 package jp.ac.jec.cm0119.loginchatapp.ui
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -51,11 +53,10 @@ class OPTActivity : AppCompatActivity() {
             .setActivity(this@OPTActivity)
             .setCallbacks(object: PhoneAuthProvider.OnVerificationStateChangedCallbacks(){  //さまざまな電話認証イベントの登録済みコールバック
                 //SMS が自動取得されるか、電話番号が即座に確認されたときにトリガーされます(上記URLに詳細あり)
-                override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-                    TODO("Not yet implemented")
-                }
+                override fun onVerificationCompleted(p0: PhoneAuthCredential) {}
 
                 //電話番号の確認中にエラーが発生したときにトリガーされます
+                // TODO: 電話番号認証中にエラーなら電話番号の再入力を求める 
                 override fun onVerificationFailed(p0: FirebaseException) {
                     Toast.makeText(this@OPTActivity, "電話番号の確認中にエラーが発生", Toast.LENGTH_SHORT).show()
                     Log.d("error", p0.toString())
@@ -88,5 +89,23 @@ class OPTActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+
+        val inputMethodManager: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        // エルビス演算子でViewを取得できなければ return false
+        // focusViewには入力しようとしているのEditTextが取得されるはず
+        val focusView = currentFocus ?: return false
+
+        // このメソッドでキーボードを閉じる
+        inputMethodManager.hideSoftInputFromWindow(
+            focusView.windowToken,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
+
+        return false
     }
 }

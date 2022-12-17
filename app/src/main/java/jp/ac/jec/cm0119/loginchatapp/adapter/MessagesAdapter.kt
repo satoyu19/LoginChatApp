@@ -55,14 +55,15 @@ class MessagesAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        val messages = messages[position]
-        return if (FirebaseAuth.getInstance().uid == messages.senderId) { //自分
+        val message = messages[position]
+        return if (FirebaseAuth.getInstance().uid == message.senderId) { //自分
             ITEM_SEND
         } else {    //相手
             ITEM_RECEIVE
         }
     }
 
+    // TODO: 呼ばれていない。
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messages[position]
         Log.d("Test", "message/ $message")

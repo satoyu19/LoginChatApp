@@ -71,7 +71,6 @@ class ChatActivity : AppCompatActivity() {
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     Log.d("Test", "Presence/${receiverUid}/ChatActivity")   //確認用
-
                     if (snapshot.exists()) {    //null値がふくまれていない場合
                         val status = snapshot.getValue(String::class.java)
                         if (status == "offline") {
@@ -95,20 +94,22 @@ class ChatActivity : AppCompatActivity() {
         binding.recycleView.layoutManager = LinearLayoutManager(this@ChatActivity)
         binding.recycleView.adapter = adapter
 
-        //todo: この辺で確認
+        //todo: この辺で確認(こ    こでrecycleviewの更新を行なっているが、senderRoomのmessageに自分の送信したメッセージが更新されていない)
         //senderRoomのmessageに変更があれば(主に相手のメッセージ送信にともなって変更される)viewの更新
         database.reference.child("chats")
             .child(senderRoom!!)
-            .child("message")
+            .child("message")   /**messages?**/
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     messages!!.clear()
                     for (snapshot1 in snapshot.children) {
+                        // TODO: そもそもここが呼ばれていない 
                         Log.d("Test", "snapshot1.key/${snapshot1.key}")
                         val message: Message? = snapshot1.getValue(Message::class.java) //選択したクラスへマーシャルする
                         message!!.messageId = snapshot1.key
                         messages!!.add(message)
                     }
+                    //
                     adapter!!.notifyDataSetChanged()
                 }
                 override fun onCancelled(error: DatabaseError) {}
@@ -125,6 +126,7 @@ class ChatActivity : AppCompatActivity() {
             val lastMsgObj = HashMap<String, Any>()
             lastMsgObj["lastMsg"] = message.message!!
             lastMsgObj["lastMsgTime"] = date.time
+
             //特定の子キーを指定された値に変更する(最後のメッセージの更新)
             database.reference.child("chats").child(senderRoom!!).updateChildren(lastMsgObj)
             database.reference.child("chats").child(receiverRoom!!).updateChildren(lastMsgObj)
@@ -132,10 +134,11 @@ class ChatActivity : AppCompatActivity() {
             //senderRoomとreceiverRoomにメッセージ追加
             database.reference.child("chats")
                 .child(senderRoom!!)    //自身のトーク履歴？に追加
-                .child("messages")
+                .child("message")   /**変更点**/
                 .child(randomKey!!).setValue(message).addOnSuccessListener {
                     database.reference.child("chats")
                         .child(receiverRoom!!)  //相手のトーク履歴？に追加
+                        .child("message")
                         .child(randomKey)
                         .setValue(message)
                         .addOnSuccessListener {}
@@ -185,14 +188,13 @@ class ChatActivity : AppCompatActivity() {
                     val selectedImage = data.data
                     val calender = Calendar.getInstance()
                     val refence = storage.reference.child("chats")
-                        .child(calender.timeInMillis.toString())
+                        .child(calender.timeInMillis.toString() + "")
                     dialog!!.show()
                     refence.putFile(selectedImage!!).addOnCompleteListener { task ->
                         dialog!!.dismiss()
                         if (task.isSuccessful) {
                             refence.downloadUrl.addOnSuccessListener { uri ->   //成功
                                 val filePath = uri.toString()
-
                                 /**uri.result.toString()**/
                                 val messageTxt = binding.messageBox.text.toString()
                                 val date = Date()
@@ -204,6 +206,9 @@ class ChatActivity : AppCompatActivity() {
                                 lastMsgObj["lastMsgTime"] = date.time
                                 database.reference.child("chats")
                                     .updateChildren(lastMsgObj)
+                                database.reference.child("chats").child(receiverRoom!!)
+                                    .updateChildren(lastMsgObj)
+
                                 database.reference.child("chats")
                                     .child(senderRoom!!)
                                     .child("messages")
